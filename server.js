@@ -1,5 +1,4 @@
 import express from "express";
-// import querry from "./querry.js";
 
 const app = express();
 

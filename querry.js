@@ -2,47 +2,28 @@ import fs from "fs/promises";
 
 export default async function querry(path="./files/names.json", id){
     try{
-        let info = [];
-        // let f = false;
-        const arr = await fs.stat(path, async (err,stat)=>{
+        let emptyArray = [];
 
-            // if(err){
-            //     console.log(err)
-            // }else{
-            //     const fileHandle = await fs.open(path, "r");
-            //     info = JSON.parse(await fileHandle.readFile(options.encoding("utf-8")));
+        const arrayData = await fs.stat(path, async (err,stat)=>{
 
-            //     console.log(info);
-
-            // }
-                
 
         }).then(async ()=>{
             const fileHandle = await fs.open(path, "r");
-            //console.log(await fileHandle.readFile("utf-8"))
-            //console.log(typeof(await JSON.parse(await fileHandle.readFile("utf-8"))))
-            const arr = await info.concat (await JSON.parse(await fileHandle.readFile("utf-8")));
-            // console.log(arr);
-            
-            console.log("inside .then");
+            const array = await emptyArray.concat (await JSON.parse(await fileHandle.readFile("utf-8")));
             fileHandle.close();
-            return arr;
+            return array;
 
         })
         .catch((err)=>{
 
             if(err.code= "ENOENT"){
-                fs.writeFile(path, JSON.stringify(info));
+                throw err.code(404);
             }
-
             console.error(err,"from catch statement");
 
         })
         
-        console.log(arr)
-        return arr
-
-    // return info
+        return arrayData
     }
 
     catch{

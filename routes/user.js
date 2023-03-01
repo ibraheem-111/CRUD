@@ -14,7 +14,7 @@ class myWritable extends Writable{
         const wr = fileHandle.write(JSON.stringify(chunk));
 
         wr.then(()=>{
-            console.log("File Write Successfull");
+            res.send(201);
         })
 
         .catch((err)=>{
@@ -27,12 +27,9 @@ const w = new myWritable;
 
 route.get("/", async (req, res)=>{
     const arr = await querry();
-    
-    // console.log(arr,"from user.js route.get '/' ")
 
     res.json(arr);
 
-    // res.status(200).send("Hi");
 })
 
 route.get("/delete",(req,res)=>{
@@ -41,50 +38,26 @@ route.get("/delete",(req,res)=>{
 })
 
 route.post("/delete", async (req,res)=>{
-    const arr =await querry();
-    let rem = arr.splice(0,req.body.ID-1);
-    let rem1 = arr.splice(1);
-    const narr = rem.concat(rem1);
-    updateid(narr);
+    const {body:{ID}}=req;
+    const dataArray =await querry();
+    let remainingElementsBefore = dataArray.splice(0,ID);
+    let remainingElementsAfter = dataArray.splice(1);
+    const newDataArray = remainingElementsBefore.concat(remainingElementsAfter);
+    updateid(newDataArray);
 
-    w._write(narr);
+    w._write(newDataArray);
 
     res.redirect("/user")
 
 })
 
-// route.post("/update/data",(req,res)=>{
-    // const arr = querry();
-    // const n = req.body.ID -1;
-    // if(req.body.firstName!=1){
-    //     arr[n].firstName=req.body.firstName;
-    // }else {
-    //     res.send("The values of first Name, last Name and email cannot be 1");}
-    // if(req.body.lastName!=1){
-    //     arr[n].lastName=req.body.lastName;
-    // }else {
-    //     res.send("The values of first Name, last Name and email cannot be 1");}
-    // if(req.body.email!=1){
-    //     arr[n].email=req.body.email;
-    // }else{
-    //     res.send("The values of first Name, last Name and email cannot be 1");
-    // }
-
-    // w._write(arr);
-
-    // res.redirect("/user");
-// })
 
 route
     .route("/update")
     .get((req,res)=>{
-        // res.render("../views/user/update.ejs");
         res.render("../views/user/updatedata.ejs");
     })
-    // .post((req,res)=>{
-    //     // res.render("../views/user/updatedata.ejs",{firstName:1},{lastName:1},{email:1},{ID:req.body.ID});
-    //     res.render("../views/user/updatedata.ejs");
-    // })
+
     .post(async (req,res)=>{
         const arr = await querry();
         const n = req.body.ID -1;
