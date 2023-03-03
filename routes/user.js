@@ -1,4 +1,4 @@
-// import render from "ejs";
+
 import express from "express";
 import querry from "../querry.js";
 import Writable from "stream";
@@ -9,7 +9,7 @@ const route = express.Router()
 
 class myWritable extends Writable{
     async _write(chunk, encoding , callback){
-        // console.log(typeof(chunk));
+        
         const fileHandle = await fs.open("./files/names.json","w");
         const wr = fileHandle.write(JSON.stringify(chunk));
 

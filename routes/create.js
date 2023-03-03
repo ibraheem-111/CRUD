@@ -13,7 +13,7 @@ class myWritable extends Writable{
         const wr = fileHandle.write(JSON.stringify(chunk));
 
         wr.then(()=>{
-            res.send(201);
+            
         })
 
         .catch((err)=>{
@@ -33,6 +33,8 @@ route.get("/", (req,res)=>{
 
 route.post("/",async (req,res)=>{
 
+    
+    console.log(req.body);
     const {body:{firstName="john", lastName="doe", email="Johndoe@mail.com"}}= req;
 
     const arrayData = await querry("./files/names.json");
